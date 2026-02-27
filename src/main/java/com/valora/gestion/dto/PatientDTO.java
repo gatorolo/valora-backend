@@ -1,54 +1,29 @@
-package com.valora.gestion.entity;
+package com.valora.gestion.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import com.valora.gestion.entity.Medication;
 import lombok.Data;
-
 import java.util.List;
 
-@Entity
-@Table(name = "patients")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+public class PatientDTO {
     private Long id;
-
     private String name;
     private Integer age;
-    @JsonProperty("healthInsurance")
     private String healthInsurance;
-    @ElementCollection
     private List<Medication> medications;
     private String locationLink;
     private String diagnosis;
     private String status;
     private String city;
     private String zone;
-    @Column(columnDefinition = "TEXT")
     private String profilePhoto;
+    private String assignedCaregiver;
 
-    public Patient() {
+    public PatientDTO() {
     }
 
-    public Patient(Long id) {
-        this.id = id;
-    }
-
-    public Patient(Long id, String name, Integer age, String healthInsurance, List<Medication> medications,
-            String locationLink, String diagnosis, String status, String city, String zone, String profilePhoto) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.healthInsurance = healthInsurance;
-        this.medications = medications;
-        this.locationLink = locationLink;
-        this.diagnosis = diagnosis;
-        this.status = status;
-        this.city = city;
-        this.zone = zone;
-        this.profilePhoto = profilePhoto;
-    }
-
+    // Getters y Setters manuales por si acaso no toma Lombok correctamente en el
+    // entorno
     public Long getId() {
         return id;
     }
@@ -135,5 +110,13 @@ public class Patient {
 
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    public String getAssignedCaregiver() {
+        return assignedCaregiver;
+    }
+
+    public void setAssignedCaregiver(String assignedCaregiver) {
+        this.assignedCaregiver = assignedCaregiver;
     }
 }

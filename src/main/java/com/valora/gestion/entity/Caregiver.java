@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-
 @Table(name = "caregivers")
 @Entity
 public class Caregiver {
@@ -13,22 +11,25 @@ public class Caregiver {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
+    private String caregiverName;
     private String dni;
     private String phone;
-    private String city;          // <--- Debe coincidir con el formControlName
+    private String city;
     private Double hourlyRate;
     private String specialty;
     private String address;
     private String paymentTarget;
     private String status;
+    @Column(columnDefinition = "TEXT")
+    private String profilePhoto;
 
     public Caregiver() {
     }
 
-    public Caregiver(Long id, String fullName, String dni, String phone, String city, String specialty, Double hourlyRate, String address, String paymentTarget, String status) {
+    public Caregiver(Long id, String caregiverName, String dni, String phone, String city, String specialty,
+            Double hourlyRate, String address, String paymentTarget, String status, String profilePhoto) {
         this.id = id;
-        this.fullName = fullName;
+        this.caregiverName = caregiverName;
         this.dni = dni;
         this.phone = phone;
         this.city = city;
@@ -37,6 +38,7 @@ public class Caregiver {
         this.address = address;
         this.paymentTarget = paymentTarget;
         this.status = status;
+        this.profilePhoto = profilePhoto;
     }
 
     public Long getId() {
@@ -47,12 +49,12 @@ public class Caregiver {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getCaregiverName() {
+        return caregiverName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setCaregiverName(String caregiverName) {
+        this.caregiverName = caregiverName;
     }
 
     public String getDni() {
@@ -119,10 +121,11 @@ public class Caregiver {
         this.status = status;
     }
 
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }
-
-
-
-
-
-

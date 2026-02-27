@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ServiceOrderRepository extends JpaRepository<ServiceOrder, Long> {
 
     List<ServiceOrder> findByStatus(String status);
+    List<ServiceOrder> findByStatusIn(List<String> statuses);
 
 }

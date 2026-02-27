@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/service-orders") // Usamos un nombre claro
+@RequestMapping("/api/service-orders")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ServiceOrderController {
 
     @Autowired
     private ServiceOrderService serviceOrderService;
 
-    // 1. PUBLICAR GUARDIA (Admin envía los datos del paciente)
     @PostMapping("/publish")
     public ResponseEntity<ServiceOrder> publish(@RequestBody ServiceOrder order) {
         // Usamos el método createOrder que ya tenías con la lógica del status y fecha
@@ -24,7 +23,6 @@ public class ServiceOrderController {
         return ResponseEntity.ok(savedOrder);
     }
 
-    // 3. POSTULARSE A UNA GUARDIA (El cuidador envía su ID y Nombre)
     @PutMapping("/{id}/apply")
     public ResponseEntity<ServiceOrder> apply(
             @PathVariable Long id,
@@ -36,9 +34,23 @@ public class ServiceOrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    // 2. LISTAR GUARDIAS ACTIVAS (Para que los cuidadores las vean)
     @GetMapping("/active")
     public List<ServiceOrder> getActiveOrders() {
         return serviceOrderService.getActiveOrders();
+    }
+
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity<ServiceOrder> confirmOrder(
+            @PathVariable Long id,
+            @RequestParam Long caregiverId,
+            @RequestParam String caregiverName){
+
+        ServiceOrder confirmedOrder = serviceOrderService.confirmOrder(id, caregiverId, caregiverName);
+        return ResponseEntity.ok(confirmedOrder);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        serviceOrderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }
