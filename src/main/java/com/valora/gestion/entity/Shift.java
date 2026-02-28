@@ -17,17 +17,24 @@ public class Shift {
     private Double durationHours;
     private Double earned;
 
+    private String status; // "ACTIVA", "FINALIZADA"
+    private String paymentStatus; // "PENDIENTE", "PAGADO"
+    private String patientPaymentStatus; // "PENDIENTE", "PAGADO"
+
     public Shift() {
     }
 
     public Shift(Long caregiverId, String patientName, LocalDateTime startTime, LocalDateTime endTime,
-            Double durationHours, Double earned) {
+            Double durationHours, Double earned, String status, String paymentStatus, String patientPaymentStatus) {
         this.caregiverId = caregiverId;
         this.patientName = patientName;
         this.startTime = startTime;
         this.endTime = endTime;
         this.durationHours = durationHours;
         this.earned = earned;
+        this.status = status;
+        this.paymentStatus = paymentStatus;
+        this.patientPaymentStatus = patientPaymentStatus;
     }
 
     public Long getId() {
@@ -84,5 +91,29 @@ public class Shift {
 
     public void setEarned(Double earned) {
         this.earned = earned;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPatientPaymentStatus() {
+        return patientPaymentStatus;
+    }
+
+    public void setPatientPaymentStatus(String patientPaymentStatus) {
+        this.patientPaymentStatus = patientPaymentStatus;
     }
 }
