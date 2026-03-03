@@ -27,13 +27,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
 
                 .authorizeHttpRequests(auth -> auth
-                        // Permitimos explícitamente las opciones de CORS (Preflight)
-                        .requestMatchers(org.springframework.web.bind.annotation.RequestMethod.OPTIONS.name())
-                        .permitAll()
-                        // Permitimos todo a la API
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().permitAll() // Cambiamos .authenticated() por .permitAll() temporalmente
-                );
+                        .anyRequest().permitAll());
 
         return http.build();
     }
@@ -42,13 +36,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Poné la URL exacta de tu Angular
-        configuration.setAllowedOrigins(Arrays.asList(
+        configuration.setAllowedOriginPatterns(Arrays.asList(
                 "http://localhost:4200",
-                "https://valora-peach.vercel.app"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+                "https://valora-peach.vercel.app",
+                "https://valora-peach.vercel.app/"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(
+                Arrays.asList("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
