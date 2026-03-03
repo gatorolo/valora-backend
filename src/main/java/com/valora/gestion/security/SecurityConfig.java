@@ -28,7 +28,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // Permitimos explícitamente las opciones de CORS (Preflight)
-                        .requestMatchers(org.springframework.web.bind.annotation.RequestMethod.OPTIONS.name()).permitAll()
+                        .requestMatchers(org.springframework.web.bind.annotation.RequestMethod.OPTIONS.name())
+                        .permitAll()
                         // Permitimos todo a la API
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().permitAll() // Cambiamos .authenticated() por .permitAll() temporalmente
@@ -37,13 +38,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     // 5. Definir el Bean de CORS que usará el filtro de seguridad
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Poné la URL exacta de tu Angular
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:4200",
+                "https://valora-peach.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
