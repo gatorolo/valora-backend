@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/patients")
-@CrossOrigin(origins = "http://localhost:4200") // Para que Angular no rebote por seguridad
 public class PatientController {
 
     @Autowired

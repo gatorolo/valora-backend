@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/shifts")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ShiftController {
 
     @Autowired

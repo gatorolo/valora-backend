@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/caregivers")
-@CrossOrigin(origins = "http://localhost:4200") // ¡Fundamental para Angular!
 public class CaregiverController {
 
     @Autowired
@@ -40,4 +39,3 @@ public class CaregiverController {
                 .orElse(ResponseEntity.notFound().build());
     }
 }
-
