@@ -45,6 +45,8 @@ public class ShiftController {
 
             LocalDateTime startTime = LocalDateTime.now();
 
+            // Shift(caregiverId, patientName, startTime, endTime, durationHours, earned,
+            // status, paymentStatus, patientPaymentStatus)
             Shift shift = new Shift(caregiverId, patientName, startTime, null, 0.0, 0.0, "ACTIVA", "PENDIENTE",
                     "PENDIENTE");
             Shift savedShift = shiftRepository.save(shift);

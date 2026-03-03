@@ -22,6 +22,22 @@ public class ServiceOrderService {
         return repository.save(order);
     }
 
+    public ServiceOrder requestOrder(ServiceOrder order) {
+        order.setStatus("Pendiente");
+        return repository.save(order);
+    }
+
+    public List<ServiceOrder> getPendingOrders() {
+        return repository.findByStatusIn(List.of("Pendiente"));
+    }
+
+    public ServiceOrder publishOrder(Long orderId) {
+        return repository.findById(orderId).map(order -> {
+            order.setStatus("Publicado");
+            return repository.save(order);
+        }).orElseThrow(() -> new RuntimeException("La solicitud no existe"));
+    }
+
     public ServiceOrder save(ServiceOrder order) {
         return repository.save(order);
     }

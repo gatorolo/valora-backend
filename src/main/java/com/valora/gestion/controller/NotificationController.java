@@ -59,4 +59,20 @@ public class NotificationController {
         notificationRepository.deleteAll(list);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> payload) {
+        Optional<Notification> opt = notificationRepository.findById(id);
+        if (opt.isPresent()) {
+            Notification notif = opt.get();
+            String newStatus = payload.get("status");
+            if (newStatus != null) {
+                notif.setStatus(newStatus);
+                notificationRepository.save(notif);
+                return ResponseEntity.ok(notif);
+            }
+            return ResponseEntity.badRequest().body("Status cannot be null");
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

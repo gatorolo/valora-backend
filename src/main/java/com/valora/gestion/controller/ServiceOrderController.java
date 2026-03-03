@@ -39,15 +39,33 @@ public class ServiceOrderController {
         return serviceOrderService.getActiveOrders();
     }
 
+    @PostMapping("/request")
+    public ResponseEntity<ServiceOrder> requestOrder(@RequestBody ServiceOrder order) {
+        ServiceOrder savedOrder = serviceOrderService.requestOrder(order);
+        return ResponseEntity.ok(savedOrder);
+    }
+
+    @GetMapping("/pending")
+    public List<ServiceOrder> getPendingOrders() {
+        return serviceOrderService.getPendingOrders();
+    }
+
+    @PutMapping("/{id}/publish-request")
+    public ResponseEntity<ServiceOrder> publishRequest(@PathVariable Long id) {
+        ServiceOrder publishedOrder = serviceOrderService.publishOrder(id);
+        return ResponseEntity.ok(publishedOrder);
+    }
+
     @PutMapping("/{id}/confirm")
     public ResponseEntity<ServiceOrder> confirmOrder(
             @PathVariable Long id,
             @RequestParam Long caregiverId,
-            @RequestParam String caregiverName){
+            @RequestParam String caregiverName) {
 
         ServiceOrder confirmedOrder = serviceOrderService.confirmOrder(id, caregiverId, caregiverName);
         return ResponseEntity.ok(confirmedOrder);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         serviceOrderService.deleteOrder(id);

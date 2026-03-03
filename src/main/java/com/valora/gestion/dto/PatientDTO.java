@@ -22,8 +22,6 @@ public class PatientDTO {
     public PatientDTO() {
     }
 
-    // Getters y Setters manuales por si acaso no toma Lombok correctamente en el
-    // entorno
     public Long getId() {
         return id;
     }

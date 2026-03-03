@@ -17,9 +17,9 @@ public class Shift {
     private Double durationHours;
     private Double earned;
 
-    private String status; // "ACTIVA", "FINALIZADA"
-    private String paymentStatus; // "PENDIENTE", "PAGADO"
-    private String patientPaymentStatus; // "PENDIENTE", "PAGADO"
+    private String status;
+    private String paymentStatus;
+    private String patientPaymentStatus;
 
     public Shift() {
     }

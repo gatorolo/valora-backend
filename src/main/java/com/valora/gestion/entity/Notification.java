@@ -17,7 +17,7 @@ public class Notification {
 
     private String title;
     private String message;
-    private String type; // 'info', 'success', 'warning'
+    private String type;
     private LocalDateTime date;
 
     @Column(name = "is_read")
@@ -25,9 +25,9 @@ public class Notification {
 
     private Long relatedPostId;
 
-    private String recipientRole; // 'admin', 'caregiver', 'family'
+    private String recipientRole;
 
-    private String status; // 'Pendiente', 'Aprobado', 'Rechazado', 'Completado'
+    private String status;
 
     public Notification(String title, String message, String type, String recipientRole, String status,
             Long relatedPostId) {

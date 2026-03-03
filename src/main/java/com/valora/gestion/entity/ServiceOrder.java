@@ -16,16 +16,16 @@ public class ServiceOrder {
         private String zone;
         private String schedule;
         private String complexity; // "Baja", "Media", "Alta"
-        private String specialty;  // "Enfermería", etc.
-        private String status = "Publicado";
+        private String specialty; // "Enfermería", etc.
+        private String status = "Pendiente";
         private Long caregiverId;
         private String caregiverName;
-
 
         public ServiceOrder() {
         }
 
-        public ServiceOrder(Long id, String patientName, Integer age, String zone, String city, String schedule, String specialty, String complexity, String status, Long caregiverId, String caregiverName) {
+        public ServiceOrder(Long id, String patientName, Integer age, String zone, String city, String schedule,
+                        String specialty, String complexity, String status, Long caregiverId, String caregiverName) {
                 this.id = id;
                 this.patientName = patientName;
                 this.age = age;
