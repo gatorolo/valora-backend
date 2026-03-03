@@ -11,7 +11,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -20,29 +19,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Deshabilitamos CSRF por completo de forma explícita para TODAS las rutas
                 .csrf(csrf -> csrf.disable())
-
-                // Configuramos CORS antes que los requisitos de autenticación
                 .cors(Customizer.withDefaults())
-
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll());
 
         return http.build();
     }
 
-    // 5. Definir el Bean de CORS que usará el filtro de seguridad
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+
+        // Orígenes permitidos (IMPORTANTE: Sin barra diagonal al final)
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
                 "https://valora-peach.vercel.app"));
+
+        // Permitimos todos los métodos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+
+        // Permitimos todos los headers para evitar errores de preflight
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+        // Permitimos el envío de credenciales (Cookies, Auth Headers)
         configuration.setAllowCredentials(true);
+
+        // Tiempo de cache para el preflight (1 hora)
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
