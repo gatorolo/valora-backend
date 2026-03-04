@@ -27,7 +27,7 @@ public class CaregiverDocument {
     @Column(nullable = false)
     private String fileName;
 
-    @Column(columnDefinition = "LONGTEXT", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content; // Base64 content
 
     @Column(nullable = false)

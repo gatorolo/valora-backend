@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/documents")
+@CrossOrigin(origins = "*")
 public class CaregiverDocumentController {
 
     @Autowired
