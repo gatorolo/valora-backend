@@ -1,7 +1,7 @@
 package com.valora.gestion.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "shifts")
@@ -12,8 +12,8 @@ public class Shift {
 
     private Long caregiverId;
     private String patientName;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Instant startTime;
+    private Instant endTime;
     private Double durationHours;
     private Double earned;
 
@@ -24,7 +24,7 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(Long caregiverId, String patientName, LocalDateTime startTime, LocalDateTime endTime,
+    public Shift(Long caregiverId, String patientName, Instant startTime, Instant endTime,
             Double durationHours, Double earned, String status, String paymentStatus, String patientPaymentStatus) {
         this.caregiverId = caregiverId;
         this.patientName = patientName;
@@ -61,19 +61,19 @@ public class Shift {
         this.patientName = patientName;
     }
 
-    public LocalDateTime getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public Instant getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
 

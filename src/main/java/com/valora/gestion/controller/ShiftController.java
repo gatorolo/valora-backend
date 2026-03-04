@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class ShiftController {
                 return ResponseEntity.badRequest().body("El cuidador ya tiene una guardia activa corriendo.");
             }
 
-            LocalDateTime startTime = LocalDateTime.now();
+            Instant startTime = Instant.now();
 
             // Shift(caregiverId, patientName, startTime, endTime, durationHours, earned,
             // status, paymentStatus, patientPaymentStatus)
@@ -82,7 +82,7 @@ public class ShiftController {
             Double durationHours = durationSeconds / 3600.0;
             Double earned = durationHours * hourlyRate;
 
-            LocalDateTime endTime = LocalDateTime.now();
+            Instant endTime = Instant.now();
 
             // Actualizamos la guardia existente
             shift.setEndTime(endTime);
