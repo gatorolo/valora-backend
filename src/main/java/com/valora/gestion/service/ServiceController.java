@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/services") // ASEGÚRATE de que en Angular la apiUrl sea esta misma
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/services")
+@CrossOrigin(origins = { "http://localhost:4200", "https://valora-peach.vercel.app" })
 public class ServiceController {
 
     @Autowired
