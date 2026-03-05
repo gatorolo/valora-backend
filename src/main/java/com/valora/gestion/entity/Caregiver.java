@@ -9,6 +9,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 public class Caregiver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -53,6 +53,7 @@ public class PatientController {
                     patient.setStatus(patientDetails.getStatus());
                     patient.setCity(patientDetails.getCity());
                     patient.setZone(patientDetails.getZone());
+                    patient.setAddress(patientDetails.getAddress());
 
                     // Manejo de la lista @ElementCollection
                     if (patientDetails.getMedications() != null) {
@@ -85,6 +86,7 @@ public class PatientController {
         dto.setStatus(patient.getStatus());
         dto.setCity(patient.getCity());
         dto.setZone(patient.getZone());
+        dto.setAddress(patient.getAddress());
         dto.setProfilePhoto(patient.getProfilePhoto());
         dto.setMedications(patient.getMedications());
 

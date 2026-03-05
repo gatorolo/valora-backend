@@ -14,6 +14,7 @@ public class ServiceOrder {
         private Integer age;
         private String city;
         private String zone;
+        private String address;
         private String schedule;
         private String complexity; // "Baja", "Media", "Alta"
         private String specialty; // "Enfermería", etc.
@@ -24,13 +25,15 @@ public class ServiceOrder {
         public ServiceOrder() {
         }
 
-        public ServiceOrder(Long id, String patientName, Integer age, String zone, String city, String schedule,
+        public ServiceOrder(Long id, String patientName, Integer age, String zone, String city, String address,
+                        String schedule,
                         String specialty, String complexity, String status, Long caregiverId, String caregiverName) {
                 this.id = id;
                 this.patientName = patientName;
                 this.age = age;
                 this.zone = zone;
                 this.city = city;
+                this.address = address;
                 this.schedule = schedule;
                 this.specialty = specialty;
                 this.complexity = complexity;
@@ -70,6 +73,14 @@ public class ServiceOrder {
 
         public void setZone(String zone) {
                 this.zone = zone;
+        }
+
+        public String getAddress() {
+                return address;
+        }
+
+        public void setAddress(String address) {
+                this.address = address;
         }
 
         public String getCity() {

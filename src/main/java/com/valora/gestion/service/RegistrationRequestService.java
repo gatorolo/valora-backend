@@ -31,7 +31,8 @@ public class RegistrationRequestService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public RegistrationRequest createRequest(RegistrationRequest request) {
         request.setStatus("PENDING");
@@ -78,6 +79,9 @@ public class RegistrationRequestService {
         } else if (req.getRole().equalsIgnoreCase("PATIENT")) {
             Patient pt = objectMapper.readValue(req.getRawData(), Patient.class);
             pt.setStatus("Pendiente");
+            if (pt.getMedications() == null) {
+                pt.setMedications(new java.util.ArrayList<>());
+            }
             patientRepository.save(pt);
         } else {
             throw new Exception("Unknown role: " + req.getRole());

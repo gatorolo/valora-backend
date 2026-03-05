@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "patients")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +19,13 @@ public class Patient {
     @JsonProperty("healthInsurance")
     private String healthInsurance;
     @ElementCollection
-    private List<Medication> medications;
+    private List<Medication> medications = new java.util.ArrayList<>();
     private String locationLink;
     private String diagnosis;
     private String status;
     private String city;
     private String zone;
+    private String address;
     @Column(columnDefinition = "TEXT")
     private String profilePhoto;
 
@@ -35,7 +37,8 @@ public class Patient {
     }
 
     public Patient(Long id, String name, Integer age, String healthInsurance, List<Medication> medications,
-            String locationLink, String diagnosis, String status, String city, String zone, String profilePhoto) {
+            String locationLink, String diagnosis, String status, String city, String zone, String address,
+            String profilePhoto) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -46,6 +49,7 @@ public class Patient {
         this.status = status;
         this.city = city;
         this.zone = zone;
+        this.address = address;
         this.profilePhoto = profilePhoto;
     }
 
@@ -127,6 +131,14 @@ public class Patient {
 
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getProfilePhoto() {

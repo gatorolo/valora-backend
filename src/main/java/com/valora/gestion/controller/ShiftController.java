@@ -130,7 +130,8 @@ public class ShiftController {
 
     @GetMapping("/patient/{patientName}/unpaid")
     public ResponseEntity<List<Shift>> getUnpaidShiftsByPatientName(@PathVariable String patientName) {
-        List<Shift> shifts = shiftRepository.findByPatientNameAndPatientPaymentStatus(patientName, "PENDIENTE");
+        List<Shift> shifts = shiftRepository.findByPatientNameIgnoreCaseAndPatientPaymentStatus(patientName,
+                "PENDIENTE");
         return ResponseEntity.ok(shifts);
     }
 

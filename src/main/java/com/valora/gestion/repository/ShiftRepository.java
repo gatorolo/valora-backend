@@ -21,7 +21,7 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     List<Shift> findByPaymentStatus(String paymentStatus);
 
     // Encontrar todas las guardias impagas por paciente
-    List<Shift> findByPatientNameAndPatientPaymentStatus(String patientName, String patientPaymentStatus);
+    List<Shift> findByPatientNameIgnoreCaseAndPatientPaymentStatus(String patientName, String patientPaymentStatus);
 
     // Encontrar TODAS las guardias impagas de pacientes (para tabla global de
     // Admin)

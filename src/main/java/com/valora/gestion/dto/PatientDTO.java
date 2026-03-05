@@ -16,6 +16,7 @@ public class PatientDTO {
     private String status;
     private String city;
     private String zone;
+    private String address;
     private String profilePhoto;
     private String assignedCaregiver;
 
@@ -100,6 +101,14 @@ public class PatientDTO {
 
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getProfilePhoto() {
