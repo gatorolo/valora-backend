@@ -30,10 +30,6 @@ public class DashboardController {
         long totalCaregivers = caregiverRepository.count();
         long totalPatients = patientRepository.count();
 
-        // Calcular el balance total sumando todas las guardias cobradas al paciente
-        // (PAGADO)
-        // O simplemente las finalizadas. Para Valora, "Balance" es el dinero que ya se
-        // cobró.
         List<Shift> paidShifts = shiftRepository.findAll();
         double balance = paidShifts.stream()
                 .filter(s -> "PAGADO".equals(s.getPatientPaymentStatus()))
@@ -46,6 +42,16 @@ public class DashboardController {
         stats.put("totalBalance", balance);
 
         return ResponseEntity.ok(stats);
+    }
+
+    @PostMapping("/reset-balance")
+    public ResponseEntity<?> resetBalance() {
+        List<Shift> paidShifts = shiftRepository.findByPatientPaymentStatus("PAGADO");
+        paidShifts.forEach(s -> {
+            s.setPatientPaymentStatus("ARCHIVED_PAID");
+        });
+        shiftRepository.saveAll(paidShifts);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/recent-payments")
