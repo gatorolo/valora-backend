@@ -84,4 +84,10 @@ public class ReportController {
 
         return ResponseEntity.ok(reports);
     }
+
+    @DeleteMapping("/clear-all")
+    public ResponseEntity<?> clearAllHistory() {
+        shiftRepository.deleteAll();
+        return ResponseEntity.ok().build();
+    }
 }
