@@ -64,4 +64,9 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         return new CorsFilter(corsConfigurationSource());
     }
+
+    @Bean
+    public org.springframework.security.crypto.password.PasswordEncoder passwordEncoder() {
+        return new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder();
+    }
 }
