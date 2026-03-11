@@ -12,7 +12,7 @@ import com.valora.gestion.repository.RegistrationRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +36,7 @@ public class RegistrationRequestService {
 
     public RegistrationRequest createRequest(RegistrationRequest request) {
         request.setStatus("PENDING");
-        request.setCreatedAt(LocalDateTime.now());
+        request.setCreatedAt(Instant.now());
         RegistrationRequest savedRequest = registrationRequestRepository.save(request);
 
         // Notify Admins
@@ -46,7 +46,7 @@ public class RegistrationRequestService {
                 "El usuario " + request.getApplicantName() + " solicita registrarse como " + request.getRole());
         adminNotif.setRecipientRole("admin");
         adminNotif.setType("registration");
-        adminNotif.setDate(LocalDateTime.now());
+        adminNotif.setDate(Instant.now());
         adminNotif.setRead(false);
         // We can use relatedPostId to store the registration ID so the admin UI knows
         // what to fetch

@@ -3,7 +3,7 @@ package com.valora.gestion.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "notifications")
@@ -18,7 +18,7 @@ public class Notification {
     private String title;
     private String message;
     private String type;
-    private LocalDateTime date;
+    private Instant date;
 
     @Column(name = "is_read")
     private boolean isRead;
@@ -37,7 +37,7 @@ public class Notification {
         this.recipientRole = recipientRole;
         this.status = status;
         this.relatedPostId = relatedPostId;
-        this.date = LocalDateTime.now();
+        this.date = Instant.now();
         this.isRead = false;
     }
 }

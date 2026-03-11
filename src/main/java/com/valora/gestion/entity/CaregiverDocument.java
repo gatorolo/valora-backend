@@ -3,7 +3,7 @@ package com.valora.gestion.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "caregiver_documents")
@@ -31,7 +31,7 @@ public class CaregiverDocument {
     private String content; // Base64 content
 
     @Column(nullable = false)
-    private LocalDateTime uploadDate = LocalDateTime.now();
+    private Instant uploadDate = Instant.now();
 
     @Column(nullable = false)
     private String status = "PENDING"; // PENDING, VERIFIED, REJECTED

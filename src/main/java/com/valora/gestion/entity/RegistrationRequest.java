@@ -3,7 +3,7 @@ package com.valora.gestion.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "registration_requests")
@@ -31,5 +31,5 @@ public class RegistrationRequest {
     private String rawData;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private Instant createdAt = Instant.now();
 }

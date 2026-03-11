@@ -29,7 +29,7 @@ public class NotificationController {
     @PostMapping
     public Notification createNotification(@RequestBody Notification notification) {
         if (notification.getDate() == null) {
-            notification.setDate(java.time.LocalDateTime.now());
+            notification.setDate(java.time.Instant.now());
         }
         return notificationRepository.save(notification);
     }
