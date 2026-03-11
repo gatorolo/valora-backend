@@ -3,12 +3,13 @@ package com.valora.gestion.service;
 import com.valora.gestion.dto.*;
 import com.valora.gestion.entity.User;
 import com.valora.gestion.repository.UserRepository;
+import com.valora.gestion.security.JwtService;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TotpService totpService;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -40,29 +43,30 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()));
+
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
 
         if (user.isTwoFactorEnabled()) {
             return AuthResponse.builder()
                     .requires2FA(true)
                     .username(user.getUsername())
-                    .message("2FA required")
+                    .message("Verification code required")
                     .build();
         }
 
-        // Generate token (mock for now)
-        String token = "mock-jwt-token-for-" + user.getUsername();
+        String jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .token(jwtToken)
                 .username(user.getUsername())
                 .role(user.getRole())
                 .requires2FA(false)
+                .message("Login successful")
                 .build();
     }
 
@@ -93,24 +97,22 @@ public class AuthService {
         boolean isValid = totpService.verifyCode(user.getTwoFactorSecret(), request.getCode());
 
         if (!isValid) {
-            throw new RuntimeException("Invalid 2FA code");
+            throw new RuntimeException("Invalid verification code");
         }
 
-        // Enable 2FA if it was just setup
         if (!user.isTwoFactorEnabled()) {
             user.setTwoFactorEnabled(true);
             userRepository.save(user);
         }
 
-        // Generate token (mock for now)
-        String token = "mock-jwt-token-for-" + user.getUsername();
+        String jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .token(jwtToken)
                 .username(user.getUsername())
                 .role(user.getRole())
                 .requires2FA(false)
-                .message("2FA verification successful")
+                .message("Verification successful")
                 .build();
     }
 }
