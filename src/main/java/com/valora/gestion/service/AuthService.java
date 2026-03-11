@@ -71,14 +71,14 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         GoogleAuthenticatorKey key = totpService.generateSecret();
-        user.setTwoFactorSecret(key.getSecret());
+        user.setTwoFactorSecret(key.getKey());
         userRepository.save(user);
 
-        String qrCodeUrl = totpService.getQrCodeUrl(user.getUsername(), key.getSecret());
+        String qrCodeUrl = totpService.getQrCodeUrl(user.getUsername(), key.getKey());
 
         return TwoFactorSetupResponse.builder()
                 .qrCodeUrl(qrCodeUrl)
-                .secret(key.getSecret())
+                .secret(key.getKey())
                 .build();
     }
 
