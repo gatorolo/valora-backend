@@ -126,7 +126,7 @@ public class AuthService {
     @Transactional
     public void forgotPassword(String email) {
         User user = userRepository.findAll().stream()
-                .filter(u -> email.equalsIgnoreCase(u.getEmail()))
+                .filter(u -> u.getEmail() != null && email.equalsIgnoreCase(u.getEmail()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("User with this email not found"));
 
