@@ -31,6 +31,12 @@ public class RegistrationRequestService {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @Autowired
+    private com.valora.gestion.repository.UserRepository userRepository;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     private final ObjectMapper objectMapper = new ObjectMapper()
             .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -72,6 +78,26 @@ public class RegistrationRequestService {
             throw new Exception("Request is not pending");
         }
 
+        // 1. Create User account first
+        com.fasterxml.jackson.databind.JsonNode rootNode = objectMapper.readTree(req.getRawData());
+        String email = rootNode.path("email").asText();
+        String plainPassword = rootNode.path("password").asText();
+
+        if (email.isEmpty() || plainPassword.isEmpty()) {
+            throw new Exception("Registration data is missing email or password");
+        }
+
+        com.valora.gestion.entity.User user = com.valora.gestion.entity.User.builder()
+                .username(email)
+                .email(email)
+                .password(passwordEncoder.encode(plainPassword))
+                .role(req.getRole().equalsIgnoreCase("CAREGIVER") ? "CAREGIVER" : "FAMILY")
+                .isTwoFactorEnabled(false)
+                .build();
+
+        userRepository.save(user);
+
+        // 2. Map to legacy entities (Caregiver/Patient)
         if (req.getRole().equalsIgnoreCase("CAREGIVER")) {
             Caregiver cg = objectMapper.readValue(req.getRawData(), Caregiver.class);
             cg.setStatus("Pendiente"); // Status inside the CG flow until fully verified

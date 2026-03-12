@@ -33,6 +33,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String role; // e.g., "ADMIN", "CAREGIVER", "FAMILY"
 
+    @Column(unique = true)
+    private String email;
+
     private String twoFactorSecret;
 
     @Builder.Default
