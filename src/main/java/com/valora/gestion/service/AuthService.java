@@ -125,26 +125,23 @@ public class AuthService {
 
     @Transactional
     public void forgotPassword(String email) {
-        User user = userRepository.findAll().stream()
-                .filter(u -> u.getEmail() != null && email.equalsIgnoreCase(u.getEmail()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("User with this email not found"));
+        userRepository.findByEmail(email).ifPresent(user -> {
+            // Clean up old tokens
+            tokenRepository.deleteByUser(user);
 
-        // Clean up old tokens
-        tokenRepository.deleteByUser(user);
+            String token = UUID.randomUUID().toString();
+            PasswordResetToken resetToken = new PasswordResetToken(token, user);
+            tokenRepository.save(resetToken);
 
-        String token = UUID.randomUUID().toString();
-        PasswordResetToken resetToken = new PasswordResetToken(token, user);
-        tokenRepository.save(resetToken);
+            // LOG TOKEN FOR DEVELOPMENT
+            System.out.println("=================================================");
+            System.out.println("PASSWORD RESET TOKEN FOR: " + email);
+            System.out.println("TOKEN: " + token);
+            System.out.println("URL: http://localhost:4200/reset-password?token=" + token);
+            System.out.println("=================================================");
 
-        // LOG TOKEN FOR DEVELOPMENT
-        System.out.println("=================================================");
-        System.out.println("PASSWORD RESET TOKEN FOR: " + email);
-        System.out.println("TOKEN: " + token);
-        System.out.println("URL: http://localhost:4200/reset-password?token=" + token);
-        System.out.println("=================================================");
-
-        // In production, send email here
+            // In production, send email here
+        });
     }
 
     @Transactional
