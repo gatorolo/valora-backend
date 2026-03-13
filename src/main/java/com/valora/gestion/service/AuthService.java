@@ -26,6 +26,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordResetTokenRepository tokenRepository;
+    private final EmailService emailService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -133,14 +134,8 @@ public class AuthService {
             PasswordResetToken resetToken = new PasswordResetToken(token, user);
             tokenRepository.save(resetToken);
 
-            // LOG TOKEN FOR DEVELOPMENT
-            System.out.println("=================================================");
-            System.out.println("PASSWORD RESET TOKEN FOR: " + email);
-            System.out.println("TOKEN: " + token);
-            System.out.println("URL: http://localhost:4200/reset-password?token=" + token);
-            System.out.println("=================================================");
-
             // In production, send email here
+            emailService.sendPasswordResetEmail(user.getEmail(), token);
         });
     }
 
